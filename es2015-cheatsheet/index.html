@@ -1,0 +1,443 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ES2015 (ES6) cheatsheet</title>
+  <link rel="stylesheet" href="css/foundation.css"/>
+
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+</head>
+<body>
+<div class="row">
+  <div class="large-12 columns">
+  <h1>ES2015 (ES6) syntax cheatsheet</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 columns">
+    <a href="#" onclick="document.styleSheets[0].insertRule('pre .com { visibility: hidden }', 0);return false;">Hide comments</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>const / let / block scope</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+
+var ids = [];
+
+
+
+for (var i = 0; i < 10; i++) {
+  (function (i) {
+
+    ids[i] = function () { return i; };
+
+  })(i);
+}
+
+ids[5](); // 5
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+// Use "const" when reference to variable doesn't change.
+const ids = [];
+
+// "let" is block-scoped, here it's only available inside
+// the loop block. No need to create inner function scope.
+for (let i = 0; i < 10; i++) {
+
+  // See arrow function syntax.
+  ids[i] = () => i;
+
+
+}
+
+ids[5]();
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>arrow functions</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+var list = [1, 2, 3];
+
+
+
+list.map(function (a) { return a + 1; });
+
+
+list.map(function () { return 1; });
+list.map(function (b, c) { return b + c; });
+
+
+list.map(function (d) { return [d, 1]; });
+
+
+list.map(function (e) { return { result: e + 1 }; });
+
+
+list.map(function (f) {
+  f += 1;
+  return f;
+});
+
+this.count = 0;
+var self = this;
+var helper = {
+
+  doCount: function() {
+    self.count++;
+  }
+};
+helper.doCount();
+this.count; // 3
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+const list = [1, 2, 3];
+
+// Single-param doesn't need parenthesis around params.
+// Single-statement function body implictly returns.
+list.map(a => a + 1);
+
+// No- or multi-param functions need parenthesis.
+list.map(() => 1);
+list.map((b, c) => b + c);
+
+// Arrays can be returned without extra parenthesis.
+list.map(d => [d, 1]);
+
+// Objects need parenthesis to disambiguate between block.
+list.map(e => ({ result: e + 1 }));
+
+// Multi-statement function body needs explicit return.
+list.map(f => {
+  f += 1;
+  return f;
+});
+
+this.count = 0;
+
+var helper = {
+  // "this" in arrow function refers to "this" from caller.
+  doCount: () => {
+    this.count = list.length;
+  }
+};
+helper.doCount();
+this.count;
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>default param values / rest param / spread operator</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+
+function plusWithDefault(x, y) {
+  if (y === undefined) { y = 10; }
+  return x + y;
+}
+plusWithDefault(5); // 15
+
+
+function destructuringObject(obj) {
+  if (obj === undefined) { obj = {}; }
+  if (obj.a === undefined) { obj.a = 1; }
+  if (obj.b === undefined) { obj.b = 2; }
+  return [obj.a, obj.b];
+}
+destructuringObject(); // [1, 2]
+destructuringObject({}); // [1, 2]
+destructuringObject({ a: 3 }); // [3, 2]
+destructuringObject({ a: 4, b: 5 }); // [4, 5]
+
+
+function product(x) {
+  var rest = Array.prototype.slice.call(arguments, 1);
+  return rest.map(function (v) { return x * v; });
+}
+product(3, 1, 2, 3); // [3, 6, 9]
+
+
+var numbers = [3, 4];
+var moreNumbers = [1, 2].concat(numbers);
+
+
+product.apply(this, [5].concat(moreNumbers));
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+// Use defaults for simple values.
+function plusWithDefault(x, y = 10) {
+
+  return x + y;
+}
+plusWithDefault(5);
+
+// Combine with destructuring for objects.
+function destructuringObject({ a = 1, b = 2 } = {}) {
+
+
+
+  return [a, b];
+}
+destructuringObject();
+destructuringObject({});
+destructuringObject({ a: 3 });
+destructuringObject({ a: 4, b: 5 });
+
+// Use rest param for explicit argument array.
+function product(x, ...rest) {
+
+  return rest.map(v => x * v);
+}
+product(3, 1, 2, 3);
+
+// Create new arrays with spread.
+const numbers = [3, 4];
+const moreNumbers = [1, 2, ...numbers];
+
+// Apply array of params in calls.
+product(5, ...moreNumbers);
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>object property possibilities</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+var x = 1, y = 2;
+
+var obj = { x: x, y: y };
+
+var obj2 = {
+  x: x
+};
+obj2['a' + 'b'] = 1;
+
+
+var obj3 = {
+
+  doThing: function() { },
+
+  doOtherThing: function(a) { }
+};
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+let x = 1, y = 2;
+// Use shorthand for same-named variables.
+let obj = { x, y };
+
+let obj2 = {
+  x,
+  // In-place evaluation of expression.
+  ['a' + 'b']: 1
+};
+
+let obj3 = {
+  // No need to write "function"
+  doThing() { },
+  // Single-param function need parenthesis though.
+  doOtherThing(a) { }
+};
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>destructuring</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+var numbers = [1, 2, 3];
+
+
+var a = numbers[0], b = numbers[2], c = numbers[3];
+
+
+var tmp = a; a = b; b = tmp;
+
+var obj = { a: 4, b: 5, c: 6 };
+
+
+
+var a = obj.a, b = obj.b, c = obj.c;
+
+var obj2 = { d: 7, e: { f: 8 } };
+
+
+var x = obj2.d, y = obj2.e.f;
+
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+const numbers = [1, 2, 3];
+
+// Destructure arrays, even with missing values.
+let [a, , b, c] = numbers;
+
+// Shorthand value swap.
+[b, a] = [a, b];
+
+const obj = { a: 4, b: 5, c: 6 };
+
+// Destructure objects, with shorthand notation.
+// Parenthesis needed as "let" is not provided.
+({ a, b, c } = obj);
+
+const obj2 = { d: 7, e: { f: 8 } };
+
+// Destructure to new variables.
+let { d: x, e: { f: y } } = obj2;
+
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3>classes</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+
+
+
+var Shape = function (id, x, y) {
+  this.id = id;
+  this.move(x, y);
+};
+
+Shape.prototype.move = function (x, y) {
+  this.x = x;
+  this.y = y;
+};
+Shape.prototype.toString = function () {
+    return 'Shape ' + this.id;
+};
+
+
+
+var Rectangle = function (id, x, y, width, height) {
+
+  Shape.call(this, id, x, y);
+  this.width  = width;
+  this.height = height;
+};
+Rectangle.prototype = Object.create(Shape.prototype);
+Rectangle.prototype.constructor = Rectangle;
+
+Rectangle.prototype.toString = function () {
+
+    return 'Rect ' + Shape.prototype.toString.call(this);
+};
+
+
+Rectangle.defaultRectangle = function () {
+    return new Rectangle("default", 0, 0, 100, 100);
+};
+
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+// Use "class" keyword.
+class Shape {
+  // Define the constructor.
+  constructor (id, x, y) {
+    this.id = id;
+    this.move(x, y);
+  }
+  // No comma needed between functions.
+  move (x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  toString () {
+    return 'Shape ' + this.id;
+  }
+}
+
+class Rectangle extends Shape {
+  constructor (id, x, y, width, height) {
+    // Use "super" to call parent constructor.
+    super(id, x, y);
+    this.width  = width;
+    this.height = height;
+  }
+
+
+
+  toString () {
+    // Use "super" to access parent functions.
+    return 'Rect ' + super.toString();
+  }
+
+  // Use "static" keyword for static class members.
+  static defaultRectangle () {
+    return new Rectangle("default", 0, 0, 100, 100);
+  }
+}
+  </pre>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+  <h3></h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+  </pre>
+  </div>
+</div>
+
+</body>
+</html>
