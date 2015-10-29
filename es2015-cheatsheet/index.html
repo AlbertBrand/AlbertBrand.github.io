@@ -545,7 +545,7 @@ function fetch(url, timeout, onData, onError) {
 
 function getAll(requests, onDone, onError) => {
   var received = [], numReceived;
-  requests.map(function (request, idx) {
+  requests.forEach(function (request, idx) {
     fetch(request.url, request.timeout, function (data) {
       received[idx] = data;
       if (++numReceived === requests.length) {
