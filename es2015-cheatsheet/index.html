@@ -3,27 +3,30 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ES2015 (ES6) cheatsheet</title>
+  <title>ES2015 (ES6) syntax cheatsheet</title>
   <link rel="stylesheet" href="css/foundation.css"/>
 
-  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+  <script src="js/run_prettify.js?skin=desert"></script>
 </head>
 <body>
 <div class="row">
   <div class="large-12 columns">
-  <h1>ES2015 (ES6) syntax cheatsheet</h1>
+    <h1>ES2015 (ES6) syntax cheatsheet</h1>
   </div>
 </div>
 
 <div class="row">
   <div class="large-12 columns">
-    <a href="#" onclick="document.styleSheets[0].insertRule('pre .com { visibility: hidden }', 0);return false;">Hide comments</a>
+    <a href="#"
+       class="button round small"
+       onclick="document.styleSheets[0].insertRule('pre .com { visibility: hidden }', 0); return false;">
+      Hide comments</a>
   </div>
 </div>
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>const / let / block scope</h3>
+    <h3>const / let / block scope</h3>
   </div>
 </div>
 <div class="row">
@@ -42,7 +45,8 @@ for (var i = 0; i < 10; i++) {
   })(i);
 }
 
-ids[5](); // 5
+ids[5]() === 5;
+
   </pre>
   </div>
   <div class="large-6 columns">
@@ -60,7 +64,8 @@ for (let i = 0; i < 10; i++) {
 
 }
 
-ids[5]();
+ids[5]() === 5;
+
   </pre>
   </div>
 </div>
@@ -68,7 +73,7 @@ ids[5]();
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>arrow functions</h3>
+    <h3>arrow functions</h3>
   </div>
 </div>
 <div class="row">
@@ -105,7 +110,8 @@ var helper = {
   }
 };
 helper.doCount();
-this.count; // 3
+this.count === 3;
+
   </pre>
   </div>
   <div class="large-6 columns">
@@ -141,7 +147,8 @@ var helper = {
   }
 };
 helper.doCount();
-this.count;
+this.count === 3;
+
   </pre>
   </div>
 </div>
@@ -149,7 +156,7 @@ this.count;
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>default param values / rest param / spread operator</h3>
+    <h3>default param values / rest param / spread operator</h3>
   </div>
 </div>
 <div class="row">
@@ -160,7 +167,7 @@ function plusWithDefault(x, y) {
   if (y === undefined) { y = 10; }
   return x + y;
 }
-plusWithDefault(5); // 15
+plusWithDefault(5) === 15;
 
 
 function destructuringObject(obj) {
@@ -187,6 +194,7 @@ var moreNumbers = [1, 2].concat(numbers);
 
 
 product.apply(this, [5].concat(moreNumbers));
+
   </pre>
   </div>
   <div class="large-6 columns">
@@ -196,7 +204,7 @@ function plusWithDefault(x, y = 10) {
 
   return x + y;
 }
-plusWithDefault(5);
+plusWithDefault(5) === 15;
 
 // Combine with destructuring for objects.
 function destructuringObject({ a = 1, b = 2 } = {}) {
@@ -223,6 +231,7 @@ const moreNumbers = [1, 2, ...numbers];
 
 // Apply array of params in calls.
 product(5, ...moreNumbers);
+
   </pre>
   </div>
 </div>
@@ -230,7 +239,7 @@ product(5, ...moreNumbers);
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>object property possibilities</h3>
+    <h3>object property extensions</h3>
   </div>
 </div>
 <div class="row">
@@ -252,6 +261,7 @@ var obj3 = {
 
   doOtherThing: function(a) { }
 };
+
   </pre>
   </div>
   <div class="large-6 columns">
@@ -272,6 +282,7 @@ let obj3 = {
   // Single-param function need parenthesis though.
   doOtherThing(a) { }
 };
+
   </pre>
   </div>
 </div>
@@ -279,7 +290,7 @@ let obj3 = {
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>destructuring</h3>
+    <h3>destructuring</h3>
   </div>
 </div>
 <div class="row">
@@ -334,7 +345,7 @@ let { d: x, e: { f: y } } = obj2;
 
 <div class="row">
   <div class="large-12 columns">
-  <h3>classes</h3>
+    <h3>classes</h3>
   </div>
 </div>
 <div class="row">
@@ -353,7 +364,7 @@ Shape.prototype.move = function (x, y) {
   this.y = y;
 };
 Shape.prototype.toString = function () {
-    return 'Shape ' + this.id;
+  return 'Shape ' + this.id;
 };
 
 
@@ -369,13 +380,14 @@ Rectangle.prototype.constructor = Rectangle;
 
 Rectangle.prototype.toString = function () {
 
-    return 'Rect ' + Shape.prototype.toString.call(this);
+  return 'Rect ' + Shape.prototype.toString.call(this);
 };
 
 
 Rectangle.defaultRectangle = function () {
-    return new Rectangle("default", 0, 0, 100, 100);
+  return new Rectangle("default", 0, 0, 100, 100);
 };
+
 
   </pre>
   </div>
@@ -418,6 +430,7 @@ class Rectangle extends Shape {
     return new Rectangle("default", 0, 0, 100, 100);
   }
 }
+
   </pre>
   </div>
 </div>
@@ -425,19 +438,185 @@ class Rectangle extends Shape {
 
 <div class="row">
   <div class="large-12 columns">
-  <h3></h3>
+    <h3>for .. of / generators</h3>
   </div>
 </div>
 <div class="row">
   <div class="large-6 columns">
   <pre class="prettyprint">
+var list = [1, 2, 3, 4];
+var product = 1;
+
+
+for (var key in list) {
+  sum += list[key];
+}
+
+
+function range(start, end, step) {
+  var list = [];
+  while (start < end) {
+    list.push(start);
+    start += step;
+  }
+  return list;
+}
+
+
+var rng = range(0, 10, 2);
+for (var key in rng) {
+  sum += rng[key];
+}
+
+
+var numbers = range(0, 20, 1);
+
+var rng2 = range(0, 5, 1);
+var n1 = rng2[0], n2 = rng2[0], others = rng2.slice(2);
+
   </pre>
   </div>
   <div class="large-6 columns">
   <pre class="prettyprint">
+const list = [1, 2, 3, 4];
+let sum = 0;
+
+// Immediate access to value in arrays.
+for (let num of list) {
+  sum += num;
+}
+
+// Use generator functions to produce values.
+function* range(start, end, step) {
+
+  while (start < end) {
+    yield start;
+    start += step;
+  }
+
+}
+
+
+// Generators are iterable, use "for .. of" with it.
+for (let val of range(0, 10, 2)) {
+  sum += val;
+}
+
+// Use spread to place generator output in array.
+const numbers = [...range(0, 20, 1)];
+
+// Use destructuring for even more control.
+const [n1, n2, ...others] = range(0, 5, 1);
+
   </pre>
   </div>
 </div>
+
+
+<div class="row">
+  <div class="large-12 columns">
+    <h3>promises</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+
+function sleep(onDone, onError) {
+
+  setTimeout(onDone, 100);
+
+}
+
+function ready() { console.log('ready'); }
+function error() { console.log('error'); }
+
+
+sleep(function() {
+  sleep(function() {
+    sleep(ready, error);
+  }, error);
+}, error);
+
+function fetch(url, timeout, onData, onError) {
+  // ...
+}
+
+
+function getAll(requests, onDone, onError) => {
+  var received = [], numReceived;
+  requests.map(function (request, idx) {
+    fetch(request.url, request.timeout, function (data) {
+      received[idx] = data;
+      if (++numReceived === requests.length) {
+        onDone(received);
+      }
+    }, onError);
+  });
+}
+
+getAll([
+  { url: 'http://first.com', timeout: 2000 },
+  { url: 'http://second.org', timeout: 3000 },
+  { url: 'http://third.net', timeout: 4000 }
+], function (res) {
+  var first = res[0], second = res[1], third = res[2];
+  console.log(first, second, third);
+
+}, error);
+
+  </pre>
+  </div>
+  <div class="large-6 columns">
+  <pre class="prettyprint">
+// Promises provide "resolve" and" "reject" paths.
+function sleep() {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, 100);
+  });
+}
+
+function ready() { console.log('ready'); }
+function error() { console.log('error'); }
+
+// Use "then" to chain behaviors, no more callback stacks.
+sleep()
+  .then(sleep)
+  .then(sleep)
+  .then(ready)
+  .catch(error); // Single catch-all for errors.
+
+function fetch(url, timeout, onData, onError) {
+  // ...
+}
+
+// Wrap a single async behavior in a Promise ...
+function get(url, timeout) {
+
+  return new Promise((resolve, reject) => {
+    fetch(url, timeout, resolve, reject);
+  });
+}
+
+
+
+
+
+// ... and use "all" to wait for promises to resolve.
+Promise.all([
+  get('http://first.com', 2000),
+  get('http://second.org', 3000),
+  get('http://third.net', 4000)
+]).then(([first, second, third]) => { // See destructuring.
+  console.log(first, second, third);
+
+
+}).catch(error);
+
+  </pre>
+  </div>
+</div>
+
 
 </body>
 </html>
